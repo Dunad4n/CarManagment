@@ -6,12 +6,14 @@ import com.opencsv.exceptions.CsvException;
 import kartashov.vsu.cs.annotations.Component;
 import kartashov.vsu.cs.annotations.DI;
 import kartashov.vsu.cs.models.Road;
+import kartashov.vsu.cs.models.TrafficLane;
 import kartashov.vsu.cs.utils.Mapper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -45,15 +47,37 @@ public class RoadDao implements Dao<Road> {
         while(reader.peek() != null) {
             String[] str = reader.readNext();
             if(Long.parseLong(str[0]) == id) {
-                return mapper.stringArrayToRoad(str);
+                List<TrafficLane> trafficLanes = new ArrayList<>();
+                String[] trafficLanesId = str[1].split(";");
+                for (int i = 0; i < trafficLanesId.length; i++) {
+                    if(trafficLanesId[i].equals("empty")) {
+                        continue;
+                    }
+                    trafficLanes.add(trafficLaneDao.get(Long.parseLong(trafficLanesId[i])));
+                }
+                return new Road(Long.parseLong(str[0]), trafficLanes);
             }
         }
         throw new Exception("There is no road with this id");
     }
 
     @Override
-    public Collection<Road> getAll() throws IOException, CsvException {
-        return new CSVReader(new FileReader(file)).readAll().stream().map(mapper::stringArrayToRoad).toList();
+    public Collection<Road> getAll() throws Exception {
+        CSVReader reader = new CSVReader(new FileReader(file));
+        List<String[]> strings = reader.readAll();
+        List<Road> roads = new ArrayList<>();
+        for (int i = 0; i < strings.size(); i++) {
+            List<TrafficLane> trafficLanes = new ArrayList<>();
+            String[] trafficLanesId = strings.get(i)[1].split(";");
+            for (int j = 0; j < trafficLanesId.length; j++) {
+                if(trafficLanesId[j].equals("empty")) {
+                    continue;
+                }
+                trafficLanes.add(trafficLaneDao.get(Long.parseLong(trafficLanesId[j])));
+            }
+            roads.add(new Road(Long.parseLong(strings.get(i)[0]), trafficLanes));
+        }
+        return roads;
     }
 
     @Override
@@ -96,6 +120,13 @@ public class RoadDao implements Dao<Road> {
         CSVWriter writer = new CSVWriter(new FileWriter(file));
         for (int i = 0; i < roads.size(); i++) {
             if(Long.parseLong(roads.get(i)[0]) == id) {
+                String[] trafficLanesId = roads.get(i)[1].split(";");
+                for(String trafficLaneId: trafficLanesId) {
+                    if(trafficLaneId.equals("empty")) {
+                        continue;
+                    }
+                    trafficLaneDao.delete(Long.parseLong(trafficLaneId));
+                }
                 roads.remove(i);
                 writer.writeAll(roads);
                 writer.close();

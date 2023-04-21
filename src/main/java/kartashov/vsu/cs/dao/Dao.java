@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface Dao<T>  {
 
     T get(Long id) throws Exception;
-    Collection<T> getAll() throws IOException, CsvException;
+    Collection<T> getAll() throws Exception;
     void save(T model) throws Exception;
     void update(Long id, T model) throws Exception;
     void delete(Long id) throws Exception;

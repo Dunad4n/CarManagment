@@ -1,10 +1,10 @@
 package kartashov.vsu.cs.models;
 
-import kartashov.vsu.cs.dao.TrafficLaneDao;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Data
@@ -13,23 +13,27 @@ import java.util.List;
 public class Road {
 
     private Long id = null;
-    private List<Long> trafficLanesId;
+    private List<TrafficLane> trafficLanes;
 
-    public Road(List<Long> trafficLanesId) {
-        this.trafficLanesId = trafficLanesId;
+    public Road(List<TrafficLane> trafficLanes) {
+        this.trafficLanes = trafficLanes;
     }
 
     public void addTrafficLane(TrafficLane trafficLane) {
-        trafficLanesId.add(trafficLane.getId());
+        trafficLanes.add(trafficLane);
     }
 
     @Override
     public String toString() {
-        StringBuilder str = new StringBuilder();
-        for (int i = 0; i < trafficLanesId.size(); i++) {
-            str.append(trafficLanesId.get(i).toString()).append(",");
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < trafficLanes.size(); i++) {
+            stringBuilder.append(trafficLanes.get(i).toString()).append(",");
         }
-        return "Road{" + id.toString() + ", Lanes: " + trafficLanesId + "}";
+        String[] str = new String[trafficLanes.size()];
+        for (int i = 0; i < trafficLanes.size(); i++) {
+            str[i] = trafficLanes.get(i).getId().toString();
+        }
+        return "Road{" + id.toString() + ", Lanes: " + Arrays.toString(str) + "}";
     }
 
 }

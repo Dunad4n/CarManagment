@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Data
@@ -11,8 +12,22 @@ import java.util.List;
 @NoArgsConstructor
 public class TrafficLane {
 
-    private Long Id;
-    private List<Long> cars;
-    private Road road;
+    private Long id;
+    private List<Car> cars;
+    private Long roadId;
+
+    public TrafficLane(List<Car> cars, Long roadId) {
+        this.cars = cars;
+        this.roadId = roadId;
+    }
+
+    @Override
+    public String toString() {
+        String[] carsId = new String[cars.size()];
+        for (int i = 0; i < cars.size(); i++) {
+            carsId[i] = cars.get(i).getId().toString();
+        }
+        return "TrafficLane{ id: "+ id + ", carsId: " + Arrays.toString(carsId) + " }";
+    }
 
 }

@@ -10,13 +10,24 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Car {
 
-    private Long Id;
+    private Long id;
     private int speed;
     private CarType type;
-    private Road startRoad;
-    private Road goalRoad;
-    private TrafficLane lane;
+    private Long startRoadId;
+    private Long goalRoadId;
+    private Long laneId;
 
+    public Car(int speed, CarType type, Long startRoadId, Long goalRoadId, Long laneId) {
+        this.speed = speed;
+        this.type = type;
+        this.startRoadId = startRoadId;
+        this.goalRoadId = goalRoadId;
+        this.laneId = laneId;
+    }
 
-
+    @Override
+    public String toString() {
+        return "Car{ id: " + id + ", speed: " + speed + ", type: " + type.toString() + ", startRoadId: "
+                + startRoadId + ", goalRoadId: " + goalRoadId + ", laneId: " + laneId + " }";
+    }
 }

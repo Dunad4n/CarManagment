@@ -3,10 +3,10 @@ package kartashov.vsu.cs.utils;
 import kartashov.vsu.cs.annotations.Component;
 import kartashov.vsu.cs.models.Car;
 import kartashov.vsu.cs.models.Road;
+import kartashov.vsu.cs.models.TrafficLane;
+import kartashov.vsu.cs.models.enums.CarType;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Component
 public class Mapper {
@@ -15,32 +15,89 @@ public class Mapper {
         return null;
     }
 
-    public Road stringArrayToRoad(String[] str) {
-        String[] trafficLanesId = str[1].split(";");
-        if(Objects.equals(trafficLanesId[0], "empty")) {
-            return new Road(Long.parseLong(str[0]), new ArrayList<>());
-        }
-        List<Long> ids = new ArrayList<>();
-        for(String item: trafficLanesId) {
-            ids.add(Long.parseLong(item));
-        }
-        return new Road(Long.parseLong(str[0]), ids);
+    public Road createRoad(Long id, List<TrafficLane> trafficLanes) {
+        return new Road(id, trafficLanes);
     }
 
     public String[] roadToStringArray(Road road) throws Exception {
         String[] str = new String[2];
         str[0] = road.getId().toString();
         str[1] = "";
-        List<Long> trafficLanesId = road.getTrafficLanesId();
-        if(road.getTrafficLanesId() == null || road.getTrafficLanesId().size() == 0) {
+        List<TrafficLane> trafficLanes = road.getTrafficLanes();
+        if(road.getTrafficLanes() == null || road.getTrafficLanes().size() == 0) {
             str[1] = "empty";
+        } else {
+            for (int i = 0; i < trafficLanes.size(); i++) {
+                if(i == trafficLanes.size() - 1) {
+                    str[1] += trafficLanes.get(i).getId().toString();
+                    break;
+                }
+                str[1] += trafficLanes.get(i).getId().toString() + ";";
+            }
         }
-        for (int i = 0; i < trafficLanesId.size(); i++) {
-            if(i == trafficLanesId.size() - 1) {
-                str[1] += trafficLanesId.get(i);
+        return str;
+    }
+
+    public String[] trafficLaneToStringArray(TrafficLane trafficLane) {
+        String[] str = new String[3];
+        str[0] = trafficLane.getId().toString();
+        str[1] = "";
+        List<Car> cars = trafficLane.getCars();
+        if(cars == null || cars.size() == 0) {
+            str[1] = "empty";
+        } else {
+            for (int i = 0; i < cars.size(); i++) {
+                if(i == cars.size() - 1) {
+                    str[1] += cars.get(i).getId().toString();
+                    break;
+                }
+                str[1] += cars.get(i).getId().toString() + ";";
+            }
+        }
+        str[2] = trafficLane.getRoadId().toString();
+        return str;
+    }
+
+    public String[] carToStringArray(Car car) {
+        String[] str = new String[6];
+        str[0] = car.getId().toString();
+        str[1] = Integer.toString(car.getSpeed());
+        str[2] = car.getType().toString();
+        str[3] = car.getStartRoadId().toString();
+        str[4] = car.getGoalRoadId().toString();
+        str[5] = car.getLaneId().toString();
+        return str;
+    }
+
+    public Car stringArrayToCar(String[] str) {
+        return new Car(Long.parseLong(str[0]),
+                       Integer.parseInt(str[1]),
+                       CarType.valueOf(str[2]),
+                       Long.parseLong(str[3]),
+                       Long.parseLong(str[4]),
+                       Long.parseLong(str[5]));
+    }
+
+//    public TrafficLane stringArrayToTrafficLane(String[] str) {
+//        String[] carsId = str[1].split(";");
+//        if(Objects.equals(carsId[0], "empty")) {
+//            return new TrafficLane(Long.parseLong(str[0]), new ArrayList<>(), Long.parseLong(str[2]));
+//        }
+//        List<Long> ids = new ArrayList<>();
+//        for(String item: carsId) {
+//            ids.add(Long.parseLong(item));
+//        }
+//        return new TrafficLane(Long.parseLong(str[0]), ids, Long.parseLong(str[2]));
+//    }
+
+    public String modelListToStringIds(List<Long> ids) {
+        String str = "";
+        for (int i = 0; i < ids.size(); i++) {
+            if(i == ids.size() - 1) {
+                str += ids.get(i);
                 break;
             }
-            str[1] += trafficLanesId.get(i).toString() + ";";
+            str += ids.get(i).toString() + ";";
         }
         return str;
     }
