@@ -21,11 +21,11 @@ public class ApplicationContext {
         for(Object obj: hashComponents) {
             System.out.println(obj);
         }
-        inject1();
-        inject2("kartashov.vsu.cs");
+        injectDependenciesToComponents();
+        injectDependencies("kartashov.vsu.cs");
     }
 
-    private static void inject1() throws IllegalAccessException {
+    private static void injectDependenciesToComponents() throws IllegalAccessException {
         for(Object obj: hashComponents) {
             for(Field field: obj.getClass().getDeclaredFields()) {
                 if(field.isAnnotationPresent(DI.class)) {
@@ -42,14 +42,14 @@ public class ApplicationContext {
         }
     }
 
-    private static void inject2(String packageName) throws Exception {
+    private static void injectDependencies(String packageName) throws Exception {
         String pack = packageName.replaceAll("[.]", "/");
         String path = "./src/main/java/" + pack;
         File[] files = new File(path).listFiles();
         if(files != null) {
             for (File file : files) {
                 if (file.isDirectory()) {
-                    inject2(packageName + "." + file.getName());
+                    injectDependencies(packageName + "." + file.getName());
                 }
             }
         } else {
@@ -63,20 +63,24 @@ public class ApplicationContext {
         reader.lines()
                 .filter(line -> line.endsWith(".class"))
                 .map(line -> getClass(line, packageName))
+                .filter(Objects::nonNull)
                 .forEach(line -> {
-                    for(Field field : line.getDeclaredFields()) {
-                        if(field.isAnnotationPresent(DI.class)) {
-                            for(Object hashObj : hashComponents) {
-                                System.out.println("Class " + field.getDeclaringClass() + ", field is " + field.getType() + ", hashObj " + hashObj);
-                                if(field.getType() == hashObj.getClass()) {
-                                    boolean isAccessible = field.isAccessible();
-                                    field.setAccessible(true);
-                                    try {
-                                        field.set(field.getDeclaringClass().newInstance(), hashObj);
-                                    } catch (IllegalAccessException | InstantiationException e) {
-                                        throw new RuntimeException(e);
+                    if(!line.isAnnotationPresent(Component.class)) {
+                        for (Field field : line.getDeclaredFields()) {
+                            if (field.isAnnotationPresent(DI.class)) {
+                                for (Object hashObj : hashComponents) {
+                                    System.out.println("Class " + field.getDeclaringClass() + ", field is " + field.getType() + ", hashObj " + hashObj);
+                                    if (field.getType() == hashObj.getClass()) {
+                                        boolean isAccessible = field.isAccessible();
+                                        field.setAccessible(true);
+                                        try {
+                                            field.set(field.getDeclaringClass().newInstance(), hashObj);
+                                        } catch (IllegalAccessException | InstantiationException e) {
+                                            throw new RuntimeException(e);
+                                        }
+                                        field.setAccessible(isAccessible);
+                                        break;
                                     }
-                                    field.setAccessible(isAccessible);
                                 }
                             }
                         }

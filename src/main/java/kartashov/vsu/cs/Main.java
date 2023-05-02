@@ -1,9 +1,9 @@
 package kartashov.vsu.cs;
 
 import kartashov.vsu.cs.annotations.DI;
-import kartashov.vsu.cs.dao.CarDao;
-import kartashov.vsu.cs.dao.RoadDao;
-import kartashov.vsu.cs.dao.TrafficLaneDao;
+import kartashov.vsu.cs.dao.csv.CarDaoCSV;
+import kartashov.vsu.cs.dao.csv.RoadDaoCSV;
+import kartashov.vsu.cs.dao.csv.TrafficLaneDaoCSV;
 import kartashov.vsu.cs.models.Car;
 import kartashov.vsu.cs.models.Road;
 import kartashov.vsu.cs.models.TrafficLane;
@@ -15,13 +15,13 @@ import java.util.List;
 public class Main {
 
     @DI
-    private static CarDao carDao;
+    private static CarDaoCSV carDao;
 
     @DI
-    private static RoadDao roadDao;
+    private static RoadDaoCSV roadDao;
 
     @DI
-    private static TrafficLaneDao trafficLaneDao;
+    private static TrafficLaneDaoCSV trafficLaneDao;
 
     static {
         try {
@@ -30,10 +30,6 @@ public class Main {
             throw new RuntimeException(e);
         }
     }
-
-    /**
-     При добавлении младшей сущности сделать проверку, существуют ли родительские сущности
-     */
 
     public static void main(String[] args) throws Exception {
 //        List<Long> trafficLanesId = new ArrayList<>();
@@ -75,6 +71,6 @@ public class Main {
 
         List<TrafficLane> trafficLanes = (List<TrafficLane>) trafficLaneDao.getAll();
         roadDao.save(new Road(trafficLanes));
-//        roadDao.delete(1L);
+        roadDao.delete(1L);
     }
 }
