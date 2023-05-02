@@ -6,6 +6,8 @@ import kartashov.vsu.cs.models.Road;
 import kartashov.vsu.cs.models.TrafficLane;
 import kartashov.vsu.cs.models.enums.CarType;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 @Component
@@ -13,6 +15,28 @@ public class Mapper {
 
     public static Car toCar(String[] str) {
         return null;
+    }
+
+    public static Road toRoad(String roadId) {
+        return new Road(Long.valueOf(roadId));
+    }
+
+    public static TrafficLane toTrafficLane(String laneId, String roadId) {
+        return new TrafficLane(Long.parseLong(laneId), Long.parseLong(roadId));
+    }
+
+    public static Car toCar(String carId,
+                            String speed,
+                            String type,
+                            String startGoalId,
+                            String goalRoadId,
+                            String laneId) {
+        return new Car(Long.parseLong(carId),
+                       Integer.parseInt(speed),
+                       CarType.valueOf(type),
+                       Long.parseLong(startGoalId),
+                       Long.parseLong(goalRoadId),
+                       Long.parseLong(laneId));
     }
 
     public Road createRoad(Long id, List<TrafficLane> trafficLanes) {

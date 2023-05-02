@@ -5,7 +5,6 @@ import com.opencsv.CSVWriter;
 import com.opencsv.exceptions.CsvException;
 import kartashov.vsu.cs.annotations.Component;
 import kartashov.vsu.cs.annotations.DI;
-import kartashov.vsu.cs.dao.Dao;
 import kartashov.vsu.cs.models.Car;
 import kartashov.vsu.cs.utils.Mapper;
 import lombok.AllArgsConstructor;
@@ -21,7 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Component
-public class CarDaoCSV implements Dao<Car> {
+public class CarDaoCSV implements DaoCSV<Car> {
 
     private static final File file = new File("D:\\JavaTasks\\CarManagment\\src\\main\\java\\kartashov\\vsu\\cs\\data\\car.csv");
     private Long id = 1L;

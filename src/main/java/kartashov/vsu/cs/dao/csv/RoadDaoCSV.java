@@ -4,7 +4,6 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 import kartashov.vsu.cs.annotations.Component;
 import kartashov.vsu.cs.annotations.DI;
-import kartashov.vsu.cs.dao.Dao;
 import kartashov.vsu.cs.models.Road;
 import kartashov.vsu.cs.models.TrafficLane;
 import kartashov.vsu.cs.utils.Mapper;
@@ -21,7 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Component
-public class RoadDaoCSV implements Dao<Road> {
+public class RoadDaoCSV implements DaoCSV<Road> {
 
     private static final File file = new File("D:\\JavaTasks\\CarManagment\\src\\main\\java\\kartashov\\vsu\\cs\\data\\road.csv");
     private Long id = 1L;

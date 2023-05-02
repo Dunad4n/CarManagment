@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Car {
 
-    private Long id;
+    private Long id = null;
     private int speed;
     private CarType type;
     private Long startRoadId;

@@ -16,8 +16,8 @@ public class TrafficLane {
     private List<Car> cars;
     private Long roadId;
 
-    public TrafficLane(List<Car> cars, Long roadId) {
-        this.cars = cars;
+    public TrafficLane(Long id, Long roadId) {
+        this.id = id;
         this.roadId = roadId;
     }
 

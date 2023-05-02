@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="SqlDialectMappings">
+    <file url="file://$PROJECT_DIR$/src/main/java/kartashov/vsu/cs/dao/CarDao.java" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/kartashov/vsu/cs/dao/RoadDao.java" dialect="PostgreSQL" />
+    <file url="file://$PROJECT_DIR$/src/main/java/kartashov/vsu/cs/dao/TrafficLaneDao.java" dialect="PostgreSQL" />
     <file url="file://$PROJECT_DIR$/src/main/resources/db/migration/CREATE_TABLES.sql" dialect="PostgreSQL" />
   </component>
 </project>

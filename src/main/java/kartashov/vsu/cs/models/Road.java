@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
 public class Road {
 
     private Long id = null;
-    private List<TrafficLane> trafficLanes;
+    private List<TrafficLane> trafficLanes = new ArrayList<>();
 
     public Road(List<TrafficLane> trafficLanes) {
         this.trafficLanes = trafficLanes;
@@ -21,6 +22,10 @@ public class Road {
 
     public void addTrafficLane(TrafficLane trafficLane) {
         trafficLanes.add(trafficLane);
+    }
+
+    public Road(Long id) {
+        this.id = id;
     }
 
     @Override

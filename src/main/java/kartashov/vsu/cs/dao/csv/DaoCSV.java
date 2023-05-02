@@ -1,13 +1,8 @@
-package kartashov.vsu.cs.dao;
+package kartashov.vsu.cs.dao.csv;
 
-import com.opencsv.exceptions.CsvException;
-
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Collection;
-import java.util.Optional;
 
-public interface Dao<T>  {
+public interface DaoCSV<T>  {
 
     T get(Long id) throws Exception;
     Collection<T> getAll() throws Exception;
