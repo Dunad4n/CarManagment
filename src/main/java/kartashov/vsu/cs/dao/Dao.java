@@ -1,4 +1,4 @@
-package kartashov.vsu.cs.dao.csv;
+package kartashov.vsu.cs.dao;
 
 import kartashov.vsu.cs.models.Road;
 

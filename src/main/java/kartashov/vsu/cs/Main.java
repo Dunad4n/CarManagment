@@ -53,19 +53,32 @@ public class Main {
         roadDao.setConnection(connection);
         trafficLaneDao.setConnection(connection);
         carDao.setConnection(connection);
+//        try {
+//            connection.createStatement().execute("TRUNCATE TABLE road RESTART IDENTITY CASCADE ");
+//            connection.createStatement().execute("TRUNCATE TABLE lane RESTART IDENTITY CASCADE ");
+//            connection.createStatement().execute("TRUNCATE TABLE car RESTART IDENTITY CASCADE ");
+//        } catch (SQLException e) {
+//            throw new RuntimeException(e);
+//        }
     }
 
     public static void main(String[] args) throws Exception {
-        roadDao.create(null);
-        List<Road> roads = roadDao.getAll();
-        for (Road road : roads) {
-            System.out.println(road.toString());
-        }
-        trafficLaneDao.create(new TrafficLane(null, 11L));
-        trafficLaneDao.update(new TrafficLane(3L, 16L));
-        carDao.create(new Car(100, CarType.PassengerCar, 11L, 16L, 4L));
-        carDao.create(new Car(110, CarType.PassengerCar, 12L, 17L, 10L));
-        carDao.update(new Car(2L, 210, CarType.Truck, 12L, 17L, 10L));
-        carDao.delete(2L);
+        roadDao.create();
+//        List<Road> roads = roadDao.getAll();
+//        for (Road road : roads) {
+//            System.out.println(road.toString());
+//        }
+        trafficLaneDao.create(new TrafficLane(1L));
+        trafficLaneDao.create(new TrafficLane(1L));
+        trafficLaneDao.create(new TrafficLane(1L));
+//        trafficLaneDao.update(new TrafficLane(3L, 16L));
+        carDao.create(new Car(100, CarType.PassengerCar, 1L, 1L, 1L));
+        carDao.create(new Car(110, CarType.PassengerCar, 1L, 1L, 1L));
+        carDao.create(new Car(210, CarType.Truck, 1L, 1L, 1L));
+
+        Road road = roadDao.get(1L);
+        TrafficLane trafficLane = trafficLaneDao.get(1L);
+        Car car = carDao.get(1L);
+//        carDao.delete(2L);
     }
 }

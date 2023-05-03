@@ -12,12 +12,16 @@ import java.util.List;
 @NoArgsConstructor
 public class TrafficLane {
 
-    private Long id;
+    private Long id = null;
     private List<Car> cars;
     private Long roadId;
 
     public TrafficLane(Long id, Long roadId) {
         this.id = id;
+        this.roadId = roadId;
+    }
+
+    public TrafficLane(Long roadId) {
         this.roadId = roadId;
     }
 
