@@ -7,13 +7,13 @@ import java.util.List;
 
 public interface Dao<T> {
 
-    T get(Long id) throws SQLException;
+    T get(Long id) throws Exception;
 
-    List<T> getAll() throws SQLException;
+    List<T> getAll() throws Exception;
 
-    void create(T item) throws SQLException;
+    void create(T item) throws Exception;
 
-    void update(T item) throws SQLException;
+    void update(T item, Long id) throws Exception;
 
-    void delete(Long id) throws SQLException;
+    void delete(Long id) throws Exception;
 }

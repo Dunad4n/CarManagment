@@ -1,20 +1,33 @@
 package kartashov.vsu.cs.models;
 
 import kartashov.vsu.cs.models.enums.CarType;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Car {
 
+    @Getter
     private Long id = null;
+
+    @Setter
+    @Getter
     private int speed;
+
+    @Setter
+    @Getter
     private CarType type;
+
+    @Setter
+    @Getter
     private Long startRoadId;
+
+    @Setter
+    @Getter
     private Long goalRoadId;
+
+    @Setter
+    @Getter
     private Long laneId;
 
     public Car(int speed, CarType type, Long startRoadId, Long goalRoadId, Long laneId) {

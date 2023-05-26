@@ -1,6 +1,8 @@
 CREATE TABLE road
 (
-    road_id         SERIAL NOT NULL PRIMARY KEY
+    road_id         SERIAL NOT NULL PRIMARY KEY,
+    next_road_id    INT REFERENCES road(road_id),
+    prev_road_id    INT REFERENCES road(road_id)
 );
 
 CREATE TABLE lane

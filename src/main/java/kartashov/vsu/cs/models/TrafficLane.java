@@ -1,19 +1,22 @@
 package kartashov.vsu.cs.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Arrays;
 import java.util.List;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class TrafficLane {
 
+    @Getter
     private Long id = null;
+
+    @Getter
     private List<Car> cars;
+
+    @Setter
+    @Getter
     private Long roadId;
 
     public TrafficLane(Long id, Long roadId) {
@@ -23,6 +26,10 @@ public class TrafficLane {
 
     public TrafficLane(Long roadId) {
         this.roadId = roadId;
+    }
+
+    public void putCars(List<Car> cars) {
+        this.cars = cars;
     }
 
     @Override

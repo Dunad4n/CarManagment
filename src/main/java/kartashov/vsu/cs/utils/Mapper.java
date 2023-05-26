@@ -6,12 +6,12 @@ import kartashov.vsu.cs.models.Road;
 import kartashov.vsu.cs.models.TrafficLane;
 import kartashov.vsu.cs.models.enums.CarType;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
 public class Mapper {
+
 
     public static Car toCar(String[] str) {
         return null;
@@ -39,8 +39,8 @@ public class Mapper {
                        Long.parseLong(laneId));
     }
 
-    public Road createRoad(Long id, List<TrafficLane> trafficLanes) {
-        return new Road(id, trafficLanes);
+    public Road createRoad(Long id, Long nextRoadId, Long prevRoadId, List<TrafficLane> trafficLanes) {
+        return new Road(id, nextRoadId, prevRoadId, trafficLanes);
     }
 
     public String[] roadToStringArray(Road road) throws Exception {
